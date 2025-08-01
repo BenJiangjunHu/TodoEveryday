@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoEveryday</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-addition.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TodoEveryday</h1>
+            <div class="search-add">
+                <div class="search-container">
+                    <input type="text" id="search-add-input" placeholder="Search or add a task...">
+                    <div id="search-dropdown" class="search-dropdown">
+                        <!-- Dropdown results will appear here -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="task-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <div class="tasks-container">
+            <div id="tasks-list">
+                <!-- Tasks will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Task Details Modal -->
+        <div id="task-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Task Details</h2>
+                <form id="task-form">
+                    <div class="form-group">
+                        <label for="task-name">Task Name:</label>
+                        <input type="text" id="task-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-status">Status:</label>
+                        <select id="task-status">
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-deadline">Deadline:</label>
+                        <input type="date" id="task-deadline">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-finished">Finished Date:</label>
+                        <input type="date" id="task-finished" disabled>
+                    </div>
+                    <div class="form-group date-info">
+                        <div class="date-field">
+                            <label>Created:</label>
+                            <span id="task-created-date">-</span>
+                        </div>
+                        <div class="date-field">
+                            <label>Last Updated:</label>
+                            <span id="task-updated-date">-</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-description">Description:</label>
+                        <textarea id="task-description" rows="4"></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" id="save-task">Save</button>
+                        <button type="button" id="delete-task">Delete</button>
+                        <button type="button" id="copy-task">Duplicate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

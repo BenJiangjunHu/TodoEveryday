@@ -1,0 +1,14 @@
+/* Add CSS for the mark tag used in dropdown highlighting */
+mark {
+    background-color: rgba(74, 111, 165, 0.2);
+    color: #4a6fa5;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-weight: 500;
+}
+
+.task-match-date {
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 2px;
+}
