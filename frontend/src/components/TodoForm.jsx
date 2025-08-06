@@ -18,7 +18,7 @@ const TodoForm = ({ onAddTodo, loading }) => {
       title: title.trim(),
       description: description.trim(),
       priority: parseInt(priority),
-      due_date: dueDate || null
+      dueDate: dueDate || null
     };
 
     try {

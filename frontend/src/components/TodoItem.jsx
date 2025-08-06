@@ -41,8 +41,8 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
   };
 
   const isOverdue = () => {
-    if (!todo.due_date || todo.is_completed) return false;
-    return new Date(todo.due_date) < new Date();
+    if (!todo.dueDate || todo.isCompleted) return false;
+    return new Date(todo.dueDate) < new Date();
   };
 
   const handleSave = async () => {
@@ -125,10 +125,10 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
   }
 
   return (
-    <li className={`todo-item ${todo.is_completed ? 'completed' : ''} ${isOverdue() ? 'overdue' : ''} fade-in`}>
+    <li className={`todo-item ${todo.isCompleted ? 'completed' : ''} ${isOverdue() ? 'overdue' : ''} fade-in`}>
       <div className="todo-content">
         <div className="todo-header">
-          <h4 className={`todo-title ${todo.is_completed ? 'completed-text' : ''}`}>
+          <h4 className={`todo-title ${todo.isCompleted ? 'completed-text' : ''}`}>
             {todo.title}
           </h4>
           <div className="todo-meta">
@@ -145,23 +145,23 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
         </div>
         
         {todo.description && (
-          <p className={`todo-description ${todo.is_completed ? 'completed-text' : ''}`}>
+          <p className={`todo-description ${todo.isCompleted ? 'completed-text' : ''}`}>
             {todo.description}
           </p>
         )}
         
         <div className="todo-dates">
           <small className="text-muted">
-            创建于: {formatDate(todo.created_at)}
+            创建于: {formatDate(todo.createdAt)}
           </small>
-          {todo.due_date && (
+          {todo.dueDate && (
             <small className="text-muted">
-              截止: {formatDate(todo.due_date)}
+              截止: {formatDate(todo.dueDate)}
             </small>
           )}
-          {todo.completed_at && (
+          {todo.completedAt && (
             <small className="text-muted">
-              完成于: {formatDate(todo.completed_at)}
+              完成于: {formatDate(todo.completedAt)}
             </small>
           )}
         </div>
@@ -169,11 +169,11 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
       
       <div className="todo-actions">
         <button
-          className={`btn btn-sm ${todo.is_completed ? 'btn-outline' : 'btn-success'}`}
+          className={`btn btn-sm ${todo.isCompleted ? 'btn-outline' : 'btn-success'}`}
           onClick={() => onToggle(todo.id)}
-          title={todo.is_completed ? '标记为未完成' : '标记为完成'}
+          title={todo.isCompleted ? '标记为未完成' : '标记为完成'}
         >
-          {todo.is_completed ? '↩️ 撤销' : '✅ 完成'}
+          {todo.isCompleted ? '↩️ 撤销' : '✅ 完成'}
         </button>
         
         <button

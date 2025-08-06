@@ -57,10 +57,10 @@ function App() {
     
     switch (currentFilter) {
       case 'completed':
-        filtered = todosToFilter.filter(todo => todo.is_completed);
+        filtered = todosToFilter.filter(todo => todo.isCompleted);
         break;
       case 'pending':
-        filtered = todosToFilter.filter(todo => !todo.is_completed);
+        filtered = todosToFilter.filter(todo => !todo.isCompleted);
         break;
       case 'all':
       default:
@@ -70,10 +70,10 @@ function App() {
     
     // 按创建时间倒序排列，未完成的在前
     filtered.sort((a, b) => {
-      if (a.is_completed !== b.is_completed) {
-        return a.is_completed ? 1 : -1;
+      if (a.isCompleted !== b.isCompleted) {
+        return a.isCompleted ? 1 : -1;
       }
-      return new Date(b.created_at) - new Date(a.created_at);
+      return new Date(b.createdAt) - new Date(a.createdAt);
     });
     
     return filtered;
@@ -177,7 +177,7 @@ function App() {
       const response = await todoAPI.batchOperation('delete_completed');
       
       if (response.success) {
-        setTodos(prev => prev.filter(todo => !todo.is_completed));
+        setTodos(prev => prev.filter(todo => !todo.isCompleted));
         await fetchStats();
       } else {
         throw new Error(response.error?.message || '清除失败');

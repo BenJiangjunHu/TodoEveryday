@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 创建axios实例
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/v1',
+  baseURL: 'http://localhost:8080/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -34,11 +34,13 @@ api.interceptors.response.use(
 // 待办事项API接口
 export const todoAPI = {
   // 获取所有待办事项
-  async getTodos(status = 'all', page = 1, limit = 100) {
+  async getTodos(completed = null, page = 0, size = 10) {
     try {
-      const response = await api.get('/todos/', {
-        params: { status, page, limit }
-      });
+      const params = { page, size };
+      if (completed !== null) {
+        params.completed = completed;
+      }
+      const response = await api.get('/todos', { params });
       return response.data;
     } catch (error) {
       throw error;
@@ -48,7 +50,17 @@ export const todoAPI = {
   // 创建新的待办事项
   async createTodo(todoData) {
     try {
-      const response = await api.post('/todos/', todoData);
+      const response = await api.post('/todos', todoData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // 获取单个待办事项
+  async getTodo(id) {
+    try {
+      const response = await api.get(`/todos/${id}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -58,17 +70,19 @@ export const todoAPI = {
   // 更新待办事项
   async updateTodo(id, updates) {
     try {
-      const response = await api.put(`/todos/${id}/`, updates);
+      const response = await api.put(`/todos/${id}`, updates);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
 
-  // 切换完成状态
-  async toggleTodo(id) {
+  // 切换完成状态 (通过更新实现)
+  async toggleTodo(id, currentStatus) {
     try {
-      const response = await api.patch(`/todos/${id}/toggle/`);
+      const response = await api.put(`/todos/${id}`, {
+        isCompleted: !currentStatus
+      });
       return response.data;
     } catch (error) {
       throw error;
@@ -78,19 +92,18 @@ export const todoAPI = {
   // 删除待办事项
   async deleteTodo(id) {
     try {
-      const response = await api.delete(`/todos/${id}/`);
+      const response = await api.delete(`/todos/${id}`);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
 
-  // 批量操作
-  async batchOperation(action, todoIds = []) {
+  // 批量删除
+  async batchDelete(todoIds = []) {
     try {
-      const response = await api.post('/todos/batch/', {
-        action,
-        todo_ids: todoIds
+      const response = await api.delete('/todos/batch', {
+        data: { ids: todoIds }
       });
       return response.data;
     } catch (error) {
@@ -98,10 +111,13 @@ export const todoAPI = {
     }
   },
 
-  // 获取统计信息
-  async getStats() {
+  // 批量更新状态
+  async batchUpdateStatus(todoIds = [], completed) {
     try {
-      const response = await api.get('/todos/stats/');
+      const response = await api.patch('/todos/batch/status', {
+        ids: todoIds,
+        completed: completed
+      });
       return response.data;
     } catch (error) {
       throw error;
